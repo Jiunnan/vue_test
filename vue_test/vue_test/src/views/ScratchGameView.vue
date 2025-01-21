@@ -18,6 +18,9 @@
         </ScratchComponents>
         <br/><br/><br/>
         <div class="btn-reset" @click="reset">重置</div>
+        <div v-show="isScratchComplete" class="popDiv">
+            恭喜得到獎項：{{ prize }}
+        </div>
     </div>
 </template>
 
@@ -34,6 +37,7 @@ const prizeArray = ['戴上紅鼻子', '百變百變5分鐘', '運動拖鞋波�
 
 const prize = ref('1000000 元');
 const scratchCard = ref();
+const isScratchComplete = ref(false);
 
 function scratchStart() {
     console.log("JN - scratch start");
@@ -45,6 +49,7 @@ function scratchEnd() {
 
 function scratchAll() {
     console.log('JN - scratch all');
+    isScratchComplete.value = true;
 }
 
 function reset() {
@@ -52,6 +57,7 @@ function reset() {
     const currentIndex = getRandomInt(0, prizeArray.length - 1);
     prize.value = prizeArray[Number(currentIndex)];
     console.log(`JN - 隨機選項:${currentIndex + 1} - ${prize.value}`);
+    isScratchComplete.value = false;
     scratchCard.value?.reset();
 }
 
@@ -106,6 +112,11 @@ onBeforeMount(() => {
     height: 2vw;
 }
 
-
+.popDiv {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
 </style>
