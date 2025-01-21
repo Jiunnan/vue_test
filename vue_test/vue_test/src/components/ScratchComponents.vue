@@ -218,7 +218,8 @@ function calcArea() {
     }
 
     if (num >= max * (props.scratchPercent / 100)) {
-        canvas.value.remove();
+        // canvas.value.remove();
+        ctx.value.clearRect(0, 0, width.value, height.value);
         emits("ScratchAll");
     }
 }

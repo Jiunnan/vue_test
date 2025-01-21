@@ -9,7 +9,7 @@
         :text="'刮一刮文字'" 
         :imageUrl="imageUrl" 
         :radius="5" 
-        :scratchRadius="20"
+        :scratchRadius="40"
         @scratchStart="scratchStart" @scratchEnd="scratchEnd" @scratchAll="scratchAll">
             <div class="prize">{{ prize }}</div>
         </ScratchComponents>
@@ -19,11 +19,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onBeforeMount, onMounted } from 'vue';
 import ScratchComponents from '@/components/ScratchComponents.vue';
 import {ImagePath} from '../resources/web_image'
 
 const imageUrl = ref(ImagePath.backGroundImage_letizia_1);
+
+const prizeArray = ['戴上紅鼻子', '百變百變5分鐘', '運動拖鞋波比跳', '微笑小蕾蕾']
 
 const prize = ref('1000000 元');
 const scratchCard = ref();
@@ -42,9 +44,21 @@ function scratchAll() {
 
 function reset() {
     console.log('JN - scratch reset');
-    prize.value = "第二次的1000000 元";
+    const currentIndex = getRandomInt(0, prizeArray.length - 1);
+    prize.value = prizeArray[Number(currentIndex)];
+    console.log(`JN - 隨機選項:${currentIndex + 1} - ${prize.value}`);
     scratchCard.value?.reset();
 }
+
+function getRandomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+onBeforeMount(() => {
+    const currentIndex = getRandomInt(0, prizeArray.length - 1);
+    prize.value = prizeArray[Number(currentIndex)];
+    console.log(`JN - 隨機選項:${currentIndex + 1} - ${prize.value}`);
+});
 
 </script>
 
