@@ -9,9 +9,12 @@
         :text="'刮一刮文字'" 
         :imageUrl="imageUrl" 
         :radius="5" 
-        :scratchRadius="40"
+        :scratchRadius="scratchRadius"
         @scratchStart="scratchStart" @scratchEnd="scratchEnd" @scratchAll="scratchAll">
-            <div class="prize">{{ prize }}</div>
+            <div class="prize">
+                <img class="prizeImg" :src="ImagePath.backGroundImage_letizia_1"/>
+                <label class="prizeString">{{ prize }}</label>
+            </div>
         </ScratchComponents>
         <br/><br/><br/>
         <div class="btn-reset" @click="reset">重置</div>
@@ -23,7 +26,9 @@ import { ref, onBeforeMount, onMounted } from 'vue';
 import ScratchComponents from '@/components/ScratchComponents.vue';
 import {ImagePath} from '../resources/web_image'
 
-const imageUrl = ref(ImagePath.backGroundImage_letizia_1);
+const imageUrl = ref(ImagePath.backGroundImage_letizia_2);
+
+const scratchRadius = window.innerWidth * 0.8 / 8;
 
 const prizeArray = ['戴上紅鼻子', '百變百變5分鐘', '運動拖鞋波比跳', '微笑小蕾蕾']
 
@@ -77,7 +82,22 @@ onBeforeMount(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: lightcoral;
+    overflow: hidden;
+}
+
+.prizeImg {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.prizeString {
+    position: absolute;
+    font-size: large;
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+    font-weight: bold;
 }
 
 .btn-reset {
